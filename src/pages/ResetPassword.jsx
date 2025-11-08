@@ -8,14 +8,20 @@ export default function ResetPassword() {
 
   const [password, setPassword] = useState("");
   const [msg, setMsg] = useState("");
+  const [loading, setLoading] = useState(false); // 🆕 Added loading state
 
   const submit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    setMsg("");
+
     try {
       await api.post(`/reset-password?token=${token}`, { password });
       setMsg("Password reset successfully ✅");
     } catch (err) {
       setMsg(err.response?.data?.message || "Error");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -40,8 +46,14 @@ export default function ResetPassword() {
           onChange={(e) => setPassword(e.target.value)}
         />
 
-        <button className="bg-purple-600 hover:bg-purple-700 transition text-white p-2 w-full rounded font-semibold shadow">
-          Reset Password
+        <button
+          className={`bg-purple-600 hover:bg-purple-700 transition text-white p-2 w-full rounded font-semibold shadow ${
+            loading ? "opacity-50 cursor-not-allowed" : ""
+          }`}
+          type="submit"
+          disabled={loading}
+        >
+          {loading ? "Resetting..." : "Reset Password"} {/* 🆕 */}
         </button>
 
         <p className="text-sm text-center mt-3">

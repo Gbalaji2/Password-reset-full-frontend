@@ -5,14 +5,20 @@ import { Link } from "react-router-dom";
 export default function ForgotPassword() {
   const [email, setEmail] = useState("");
   const [msg, setMsg] = useState("");
+  const [loading, setLoading] = useState(false); // 🆕 added loading state
 
   const submit = async (e) => {
     e.preventDefault();
+    setLoading(true); // 🆕 start loading
+    setMsg(""); // clear previous message
+
     try {
-      const res = await api.post("/forgot-password", { email });
+      await api.post("/forgot-password", { email });
       setMsg("Reset link sent to your email ✅");
     } catch (err) {
       setMsg(err.response?.data?.message || "Error");
+    } finally {
+      setLoading(false); // 🆕 stop loading
     }
   };
 
@@ -37,8 +43,14 @@ export default function ForgotPassword() {
           onChange={(e) => setEmail(e.target.value)}
         />
 
-        <button className="bg-orange-500 hover:bg-orange-600 transition text-white p-2 w-full rounded font-semibold shadow">
-          Send Reset Link
+        <button
+          className={`bg-orange-500 hover:bg-orange-600 transition text-white p-2 w-full rounded font-semibold shadow ${
+            loading ? "opacity-50 cursor-not-allowed" : ""
+          }`}
+          type="submit"
+          disabled={loading} // 🆕 disable button while loading
+        >
+          {loading ? "Sending..." : "Send Reset Link"} {/* 🆕 show status */}
         </button>
 
         <p className="text-sm text-center mt-3">
