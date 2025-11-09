@@ -1,25 +1,36 @@
 {
-  "name": "password-reset-frontend",
-  "private": true,
+  "name": "password-reset-full-frontend",
   "version": "1.0.0",
-  "type": "module",
-  "dependencies": {
-    "@vitejs/plugin-react": "^5.1.0",
-    "axios": "^1.6.0",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "react-router-dom": "^6.14.0"
-  },
+  "description": "",
+  "main": "vite.config.js",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Gbalaji2/Password-reset-full-frontend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Gbalaji2/Password-reset-full-frontend/issues"
+  },
+  "homepage": "https://github.com/Gbalaji2/Password-reset-full-frontend#readme",
+  "dependencies": {
+    "@vitejs/plugin-react": "^5.1.0",
+    "axios": "^1.13.2",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "react-router-dom": "^7.9.5",
+    "vite": "^7.2.2"
+  },
   "devDependencies": {
-    "@tailwindcss/postcss": "^4.1.17",
     "autoprefixer": "^10.4.21",
     "postcss": "^8.5.6",
-    "tailwindcss": "^4.1.17",
-    "vite": "^7.1.12"
+    "tailwindcss": "^3.4.18"
   }
 }

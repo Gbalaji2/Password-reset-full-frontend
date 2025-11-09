@@ -5,36 +5,39 @@ import { Link } from "react-router-dom";
 export default function Register() {
   const [form, setForm] = useState({ name: "", email: "", password: "" });
   const [msg, setMsg] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const submit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
       const res = await api.post("/register", form);
       setMsg("Account created. You can now log in ✅");
+      setForm({ name: "", email: "", password: "" });
     } catch (err) {
-      setMsg(err.response?.data?.message || "Error");
+      setMsg(err.response?.data?.message || "Error creating account");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 to-purple-100">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-500">
       <form
         onSubmit={submit}
-        className="bg-white p-8 rounded-lg shadow-lg w-80"
+        className="bg-white/10 backdrop-blur-lg p-8 rounded-2xl shadow-2xl w-80 text-white"
       >
-        <h2 className="text-2xl font-bold text-gray-800 mb-4 text-center">
-          Create Account
-        </h2>
+        <h2 className="text-3xl font-bold mb-6 text-center">Create Account</h2>
 
         <input
-          className="w-full p-2 mb-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-purple-500"
+          className="w-full p-2 mb-3 rounded bg-white/20 placeholder-white/70 text-white focus:outline-none focus:ring-2 focus:ring-pink-400"
           placeholder="Full Name"
           value={form.name}
           onChange={(e) => setForm({ ...form, name: e.target.value })}
         />
 
         <input
-          className="w-full p-2 mb-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-purple-500"
+          className="w-full p-2 mb-3 rounded bg-white/20 placeholder-white/70 text-white focus:outline-none focus:ring-2 focus:ring-pink-400"
           placeholder="Email"
           type="email"
           value={form.email}
@@ -42,20 +45,26 @@ export default function Register() {
         />
 
         <input
-          className="w-full p-2 mb-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-purple-500"
+          className="w-full p-2 mb-3 rounded bg-white/20 placeholder-white/70 text-white focus:outline-none focus:ring-2 focus:ring-pink-400"
           placeholder="Password"
           type="password"
           value={form.password}
           onChange={(e) => setForm({ ...form, password: e.target.value })}
         />
 
-        <button className="bg-purple-600 hover:bg-purple-700 transition text-white p-2 w-full rounded font-semibold shadow">
-          Register
+        <button
+          type="submit"
+          className={`bg-white/20 hover:bg-white/30 transition text-white p-2 w-full rounded font-semibold shadow ${
+            loading ? "opacity-50 cursor-not-allowed" : ""
+          }`}
+          disabled={loading}
+        >
+          {loading ? "Creating..." : "Register"}
         </button>
 
         <p className="text-sm text-center mt-3">
           Already have an account?
-          <Link to="/" className="text-purple-600 hover:underline ml-1">
+          <Link to="/" className="text-pink-300 hover:underline ml-1">
             Login
           </Link>
         </p>
@@ -63,7 +72,7 @@ export default function Register() {
         {msg && (
           <p
             className={`mt-3 text-sm text-center ${
-              msg.includes("created") ? "text-green-600" : "text-red-600"
+              msg.includes("created") ? "text-green-300" : "text-red-300"
             }`}
           >
             {msg}
