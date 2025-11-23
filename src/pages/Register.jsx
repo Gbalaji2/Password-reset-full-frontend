@@ -10,8 +10,11 @@ export default function Register() {
   const submit = async (e) => {
     e.preventDefault();
     setLoading(true);
+
     try {
-      const res = await api.post("/register", form);
+      // FIXED: correct backend route
+      const res = await api.post("/api/auth/register", form);
+
       setMsg("Account created. You can now log in ✅");
       setForm({ name: "", email: "", password: "" });
     } catch (err) {

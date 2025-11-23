@@ -16,7 +16,7 @@ export default function ResetPassword() {
     setMsg("");
 
     try {
-      await api.post(`/reset-password?token=${token}`, { password });
+      await api.post(`/api/auth/reset-password?token=${token}`, { password });
       setMsg("Password reset successfully ✅");
     } catch (err) {
       setMsg(err.response?.data?.message || "Error");
