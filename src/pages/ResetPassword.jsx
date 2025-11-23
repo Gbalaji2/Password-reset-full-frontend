@@ -5,10 +5,11 @@ import api from "../api";
 export default function ResetPassword() {
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token");
+  const email = searchParams.get("email"); // 🆕 Required
 
   const [password, setPassword] = useState("");
   const [msg, setMsg] = useState("");
-  const [loading, setLoading] = useState(false); // 🆕 Added loading state
+  const [loading, setLoading] = useState(false);
 
   const submit = async (e) => {
     e.preventDefault();
@@ -16,7 +17,12 @@ export default function ResetPassword() {
     setMsg("");
 
     try {
-      await api.post(`/api/auth/reset-password?token=${token}`, { password });
+      await api.post("/reset-password", {
+        token,
+        email,
+        password,
+      });
+
       setMsg("Password reset successfully ✅");
     } catch (err) {
       setMsg(err.response?.data?.message || "Error");
@@ -27,10 +33,7 @@ export default function ResetPassword() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 to-purple-200">
-      <form
-        onSubmit={submit}
-        className="bg-white p-8 rounded-lg shadow-lg w-80"
-      >
+      <form onSubmit={submit} className="bg-white p-8 rounded-lg shadow-lg w-80">
         <h2 className="text-2xl font-bold text-gray-800 mb-2 text-center">
           Reset Password
         </h2>
@@ -53,7 +56,7 @@ export default function ResetPassword() {
           type="submit"
           disabled={loading}
         >
-          {loading ? "Resetting..." : "Reset Password"} {/* 🆕 */}
+          {loading ? "Resetting..." : "Reset Password"}
         </button>
 
         <p className="text-sm text-center mt-3">

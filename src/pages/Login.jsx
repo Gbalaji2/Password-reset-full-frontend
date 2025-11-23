@@ -11,7 +11,7 @@ export default function Login() {
     e.preventDefault();
     setLoading(true);
     try {
-      const res = await api.post("/api/auth/login", form);
+      const res = await api.post("/login", form);
       setMsg("Login successful ✅");
       // optionally: navigate("/dashboard")
     } catch (err) {

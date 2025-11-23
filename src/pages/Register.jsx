@@ -13,7 +13,7 @@ export default function Register() {
 
     try {
       // FIXED: correct backend route
-      const res = await api.post("/api/auth/register", form);
+      const res = await api.post("/register", form);
 
       setMsg("Account created. You can now log in ✅");
       setForm({ name: "", email: "", password: "" });
